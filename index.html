@@ -1159,37 +1159,36 @@
             <div class="form-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
               <div>
                 <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:7px;">First Name *</label>
-                <input type="text" required placeholder="John" class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;" />
+                <input type="text" name="firstName" required placeholder="John" class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;" />
               </div>
               <div>
                 <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:7px;">Last Name *</label>
-                <input type="text" required placeholder="Smith" class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;" />
+                <input type="text" name="lastName" required placeholder="Smith" class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;" />
               </div>
             </div>
             <div class="form-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
               <div>
                 <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:7px;">Email *</label>
-                <input type="email" required placeholder="john@example.com" class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;" />
+                <input type="email" name="email" required placeholder="john@example.com" class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;" />
               </div>
               <div>
                 <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:7px;">Phone</label>
-                <input type="tel" placeholder="(360) 000-0000" class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;" />
+                <input type="tel" name="phone" placeholder="(360) 000-0000" class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;" />
               </div>
             </div>
             <div>
               <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:7px;">Company / Organization</label>
-              <input type="text" placeholder="Optional" class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;" />
+              <input type="text" name="company" placeholder="Optional" class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;" />
             </div>
             <div class="form-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
               <div>
                 <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:7px;">Project Type *</label>
-                <select required class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;">
+                <select name="projectType" required class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;">
                   <option value="" disabled selected>Select type...</option>
                   <option>Foundation: Residential</option>
                   <option>Foundation: Commercial</option>
                   <option>Slab-on-Grade</option>
                   <option>Curb & Gutter</option>
-                  <option>ADA / Accessibility</option>
                   <option>Decorative Concrete</option>
                   <option>Multi-Family</option>
                   <option>Warehouse / Industrial</option>
@@ -1198,12 +1197,12 @@
               </div>
               <div>
                 <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:7px;">Project Location</label>
-                <input type="text" placeholder="City, WA" class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;" />
+                <input type="text" name="projectLocation" placeholder="City, WA" class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;" />
               </div>
             </div>
             <div>
               <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:7px;">Project Description *</label>
-              <textarea required rows="4" placeholder="Tell us about your project: scope, timeline, any specific requirements..." class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;resize:vertical;font-family:inherit;"></textarea>
+              <textarea name="projectDescription" required rows="4" placeholder="Tell us about your project: scope, timeline, any specific requirements..." class="form-input" style="width:100%;padding:11px 14px;border:1.5px solid #D1D1D6;border-radius:8px;font-size:0.9rem;color:#1C1C1E;background:white;resize:vertical;font-family:inherit;"></textarea>
             </div>
             <button type="submit" id="submit-btn" class="btn-gold" style="width:100%;padding:15px;border-radius:8px;font-size:0.9rem;">Submit Quote Request</button>
             <p style="text-align:center;color:rgba(255,255,255,0.35);font-size:0.78rem;margin:0;">We typically respond within 1–2 business days. No spam, ever.</p>
@@ -1389,7 +1388,7 @@
   }
 
   function svcGoTo(i) {
-    if (svcAnimating || i === svcIndex) return;
+    if (svcAnimating || i === svcIndex || i < 0 || i >= SVC_DATA.length) return;
     svcIndex = i;
     svcRender();
   }
