@@ -13,9 +13,77 @@
     body { font-family: 'Inter', sans-serif; background: #D1D1D6; color: #1C1C1E; margin: 0; }
     .fd { font-family: 'Barlow Condensed', sans-serif; }
 
-    /* Nav */
-    .nav-shadow { box-shadow: 0 1px 0 rgba(232,115,26,0.12), 0 4px 24px rgba(0,0,0,0.4); }
-    .nav-glass { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    /* ── Logo placeholder ── */
+    .logo-placeholder {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase;
+      color: #0B2545; white-space: nowrap;
+    }
+    .logo-placeholder .logo-mark {
+      width: 32px; height: 32px; background: #E8731A; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .logo-placeholder .logo-mark svg { width: 18px; height: 18px; }
+    .logo-placeholder .logo-text { font-size: 1.3rem; line-height: 1; }
+    .logo-placeholder .logo-sub { font-size: 0.55rem; font-weight: 600; letter-spacing: 0.1em; color: #8E8E93; display: block; margin-top: 1px; }
+
+    /* ── Nav ── */
+    #nav-wrapper {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      transition: padding 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    #nav-wrapper.nav-scrolled:not(.nav-open) { padding: 12px 16px; }
+    #main-nav {
+      background: rgba(11,37,69,0.92);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(232,115,26,0.12);
+      border-radius: 0; height: 80px;
+      transition: border-radius 0.4s cubic-bezier(0.22,1,0.36,1),
+                  border-color 0.4s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.4s cubic-bezier(0.22,1,0.36,1),
+                  height 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    #nav-wrapper.nav-scrolled:not(.nav-open) #main-nav {
+      border-radius: 14px;
+      border-color: rgba(255,255,255,0.12);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.38), 0 2px 8px rgba(0,0,0,0.18);
+      height: 68px;
+    }
+    /* Animated hamburger */
+    #ham-svg {
+      transition: transform 0.32s cubic-bezier(0.22,1,0.36,1);
+    }
+    #nav-wrapper.nav-open #ham-svg { transform: rotate(-45deg); }
+    #ham-path-top {
+      stroke-dasharray: 12 63;
+      stroke-dashoffset: 0;
+      transition: stroke-dasharray 0.32s ease-in-out, stroke-dashoffset 0.32s ease-in-out;
+    }
+    #nav-wrapper.nav-open #ham-path-top {
+      stroke-dasharray: 20 300;
+      stroke-dashoffset: -32.42px;
+    }
+    /* Hide hamburger on desktop, hide desktop links on mobile */
+    @media (min-width: 768px) { #mob-toggle { display: none !important; } }
+    @media (max-width: 767px) { #nav-desktop-links { display: none !important; } }
+
+    /* Mobile overlay */
+    #mob-menu {
+      display: none; flex-direction: column; justify-content: space-between;
+      position: fixed; top: 80px; left: 0; right: 0; bottom: 0; z-index: 49;
+      background: rgba(11,37,69,0.97); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid rgba(232,115,26,0.15);
+      padding: 28px 24px 36px;
+    }
+    #mob-menu.open {
+      display: flex;
+      animation: mobSlideIn 0.28s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes mobSlideIn {
+      from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
 
     /* Gold rule */
     .gold-rule { width: 52px; height: 3px; background: #E8731A; border-radius: 2px; margin-bottom: 1rem; }
@@ -63,15 +131,28 @@
       box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 10px rgba(0,0,0,0.06), 0 14px 28px rgba(0,0,0,0.07);
     }
 
-    /* Service card hover */
-    .service-card {
-      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+    /* ── Services carousel ── */
+    .svc-card img { transition: transform 0.45s cubic-bezier(0.22,1,0.36,1); }
+    .svc-card:hover img { transform: scale(1.07); }
+    .svc-overlay {
+      position: absolute; inset: 0;
+      background: rgba(11,37,69,0.93);
+      transform: translateY(100%);
+      transition: transform 0.38s cubic-bezier(0.22,1,0.36,1);
+      padding: 28px; display: flex; flex-direction: column; justify-content: center;
+      overflow-y: auto;
     }
-    .service-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 20px rgba(0,0,0,0.1), 0 24px 48px rgba(0,0,0,0.1);
+    .svc-card:hover .svc-overlay { transform: translateY(0); }
+    .svc-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
+      width: 42px; height: 42px; border-radius: 50%;
+      background: #0B2545; border: 1px solid rgba(232,115,26,0.3);
+      color: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.18s, border-color 0.18s, transform 0.18s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
     }
-    .service-card:hover img { transform: scale(1.06); }
+    .svc-arrow:hover { background: #E8731A; border-color: #E8731A; transform: translateY(-50%) scale(1.08); }
+    .svc-arrow:disabled { opacity: 0.35; pointer-events: none; }
 
     /* Gallery card */
     .gallery-card { transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1); cursor: pointer; }
@@ -124,6 +205,10 @@
     .scroll-bounce { animation: sBounce 2.2s ease-in-out infinite; }
     @keyframes sBounce { 0%,100% { transform:translateY(0); opacity:.2; } 50% { transform:translateY(9px); opacity:.5; } }
 
+    /* ── Float bob ── */
+    .float-bob { animation: floatBob 3.8s ease-in-out infinite; }
+    @keyframes floatBob { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
+
     /* ── Nav on scroll ── */
     .nav-solid { background: rgba(11,37,69,0.98) !important; }
 
@@ -155,52 +240,85 @@
 <body>
 
 <!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
-<nav class="fixed top-0 left-0 right-0 z-50 nav-shadow nav-glass" style="background:rgba(11,37,69,0.88); height:80px;">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8 h-full flex items-center justify-between">
+<div id="nav-wrapper">
+  <nav id="main-nav">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 h-full flex items-center justify-between">
 
-    <!-- Logo -->
-    <button onclick="showPage('home')" style="background:none;border:none;cursor:pointer;padding:0;flex-shrink:0;">
-      <div style="background:white;border-radius:8px;padding:7px 16px;box-shadow:0 2px 20px rgba(0,0,0,0.3),0 0 0 1px rgba(232,115,26,0.15);">
-        <img src="brand_assets/images.jpeg" alt="NYCO Construction" style="height:50px;width:auto;display:block;" />
+      <!-- Logo -->
+      <button onclick="showPage('home')" style="background:none;border:none;cursor:pointer;padding:0;flex-shrink:0;">
+        <div style="background:white;border-radius:8px;padding:9px 18px;box-shadow:0 2px 20px rgba(0,0,0,0.3),0 0 0 1px rgba(232,115,26,0.15);">
+          <!-- SVG LOGO PLACEHOLDER — swap src when real SVG is ready -->
+          <div class="logo-placeholder">
+            <div class="logo-mark">
+              <svg viewBox="0 0 18 18" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 15 L9 3 L15 15"/><path d="M5.5 10.5 h7"/>
+              </svg>
+            </div>
+            <div>
+              <span class="logo-text">NYCO</span>
+              <span class="logo-sub">Construction</span>
+            </div>
+          </div>
+        </div>
+      </button>
+
+      <!-- Desktop links (hidden via CSS on mobile) -->
+      <div id="nav-desktop-links" style="display:flex;align-items:center;gap:32px;margin-left:auto;">
+        <button onclick="showPage('home')" class="nav-link" data-page="home"
+          style="color:rgba(255,255,255,0.7);font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:4px 0;transition:color 0.15s ease;">Home</button>
+        <button onclick="showPage('about')" class="nav-link" data-page="about"
+          style="color:rgba(255,255,255,0.7);font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:4px 0;transition:color 0.15s ease;">About</button>
+        <button onclick="showPage('gallery')" class="nav-link" data-page="gallery"
+          style="color:rgba(255,255,255,0.7);font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:4px 0;transition:color 0.15s ease;">Gallery</button>
+        <button onclick="showPage('contact')" class="nav-link" data-page="contact"
+          style="color:rgba(255,255,255,0.7);font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:4px 0;transition:color 0.15s ease;">Contact</button>
+        <button onclick="showPage('contact')" class="btn-gold" style="padding:11px 24px;border-radius:6px;margin-left:8px;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;">Get a Quote</button>
       </div>
-    </button>
 
-    <!-- Desktop links -->
-    <div class="hidden md:flex items-center gap-8">
-      <button onclick="showPage('home')" class="nav-link" data-page="home"
-        style="color:rgba(255,255,255,0.7);font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:4px 0;transition:color 0.15s ease;">Home</button>
-      <button onclick="showPage('about')" class="nav-link" data-page="about"
-        style="color:rgba(255,255,255,0.7);font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:4px 0;transition:color 0.15s ease;">About</button>
-      <button onclick="showPage('gallery')" class="nav-link" data-page="gallery"
-        style="color:rgba(255,255,255,0.7);font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:4px 0;transition:color 0.15s ease;">Gallery</button>
-      <button onclick="showPage('contact')" class="nav-link" data-page="contact"
-        style="color:rgba(255,255,255,0.7);font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:4px 0;transition:color 0.15s ease;">Contact</button>
-      <button onclick="showPage('contact')" class="btn-gold" style="padding:11px 24px;border-radius:6px;margin-left:4px;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;">Get a Quote</button>
+      <!-- Animated hamburger -->
+      <button id="mob-toggle" onclick="toggleMob()" class="md:hidden"
+        style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;padding:8px;color:rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;transition:background 0.15s;">
+        <svg id="ham-svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 32 32">
+          <path id="ham-path-top"
+            d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"/>
+          <path d="M7 16 27 16"/>
+        </svg>
+      </button>
     </div>
+  </nav>
 
-    <!-- Hamburger -->
-    <button id="mob-toggle" onclick="toggleMob()" class="md:hidden"
-      style="background:none;border:none;cursor:pointer;padding:6px;color:rgba(255,255,255,0.8);">
-      <svg id="ic-menu" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
-      <svg id="ic-close" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display:none;">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-      </svg>
-    </button>
-  </div>
-
-  <!-- Mobile drawer -->
-  <div id="mob-menu" style="display:none;background:rgba(11,37,69,0.97);backdrop-filter:blur(20px);border-top:1px solid rgba(232,115,26,0.15);padding:16px 24px 20px;">
-    <div style="display:flex;flex-direction:column;gap:4px;">
-      <button onclick="showPage('home');closeMob();" style="background:none;border:none;cursor:pointer;text-align:left;padding:10px 0;color:rgba(255,255,255,0.7);font-size:0.85rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;transition:color 0.15s;">Home</button>
-      <button onclick="showPage('about');closeMob();" style="background:none;border:none;cursor:pointer;text-align:left;padding:10px 0;color:rgba(255,255,255,0.7);font-size:0.85rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;">About</button>
-      <button onclick="showPage('gallery');closeMob();" style="background:none;border:none;cursor:pointer;text-align:left;padding:10px 0;color:rgba(255,255,255,0.7);font-size:0.85rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;">Gallery</button>
-      <button onclick="showPage('contact');closeMob();" style="background:none;border:none;cursor:pointer;text-align:left;padding:10px 0;color:rgba(255,255,255,0.7);font-size:0.85rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;">Contact</button>
-      <button onclick="showPage('contact');closeMob();" class="btn-gold" style="margin-top:10px;padding:12px;border-radius:6px;width:100%;">Get a Quote</button>
+  <!-- Mobile full-screen overlay -->
+  <div id="mob-menu">
+    <!-- Links -->
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <button onclick="showPage('home');closeMob();"
+        style="background:none;border:none;cursor:pointer;text-align:left;padding:14px 12px;color:rgba(255,255,255,0.75);font-size:1rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;border-radius:8px;transition:background 0.15s,color 0.15s;"
+        onmouseover="this.style.background='rgba(255,255,255,0.06)';this.style.color='white'"
+        onmouseout="this.style.background='none';this.style.color='rgba(255,255,255,0.75)'">Home</button>
+      <button onclick="showPage('about');closeMob();"
+        style="background:none;border:none;cursor:pointer;text-align:left;padding:14px 12px;color:rgba(255,255,255,0.75);font-size:1rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;border-radius:8px;transition:background 0.15s,color 0.15s;"
+        onmouseover="this.style.background='rgba(255,255,255,0.06)';this.style.color='white'"
+        onmouseout="this.style.background='none';this.style.color='rgba(255,255,255,0.75)'">About</button>
+      <button onclick="showPage('gallery');closeMob();"
+        style="background:none;border:none;cursor:pointer;text-align:left;padding:14px 12px;color:rgba(255,255,255,0.75);font-size:1rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;border-radius:8px;transition:background 0.15s,color 0.15s;"
+        onmouseover="this.style.background='rgba(255,255,255,0.06)';this.style.color='white'"
+        onmouseout="this.style.background='none';this.style.color='rgba(255,255,255,0.75)'">Gallery</button>
+      <button onclick="showPage('contact');closeMob();"
+        style="background:none;border:none;cursor:pointer;text-align:left;padding:14px 12px;color:rgba(255,255,255,0.75);font-size:1rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;border-radius:8px;transition:background 0.15s,color 0.15s;"
+        onmouseover="this.style.background='rgba(255,255,255,0.06)';this.style.color='white'"
+        onmouseout="this.style.background='none';this.style.color='rgba(255,255,255,0.75)'">Contact</button>
+    </div>
+    <!-- CTA at bottom -->
+    <div>
+      <div style="height:1px;background:rgba(255,255,255,0.08);margin-bottom:20px;"></div>
+      <button onclick="showPage('contact');closeMob();" class="btn-gold"
+        style="width:100%;padding:15px;border-radius:8px;font-size:0.9rem;letter-spacing:0.06em;text-transform:uppercase;">
+        Get a Free Quote
+      </button>
     </div>
   </div>
-</nav>
+</div>
 
 
 <!-- ═══════════════════════════════ HOME ═══════════════════════════════ -->
@@ -222,8 +340,19 @@
 
       <!-- Logo -->
       <div class="he-logo" style="display:inline-block;margin-bottom:40px;">
-        <div style="background:white;border-radius:10px;padding:12px 28px;box-shadow:0 8px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(232,115,26,0.2),0 0 60px rgba(232,115,26,0.08);">
-          <img src="brand_assets/images.jpeg" alt="NYCO Construction" style="height:70px;width:auto;display:block;" />
+        <div style="background:white;border-radius:10px;padding:14px 28px;box-shadow:0 8px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(232,115,26,0.2),0 0 60px rgba(232,115,26,0.08);">
+          <!-- SVG LOGO PLACEHOLDER — swap when real SVG is ready -->
+          <div class="logo-placeholder" style="gap:10px;">
+            <div class="logo-mark" style="width:40px;height:40px;border-radius:8px;">
+              <svg viewBox="0 0 18 18" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
+                <path d="M3 15 L9 3 L15 15"/><path d="M5.5 10.5 h7"/>
+              </svg>
+            </div>
+            <div>
+              <span class="logo-text" style="font-size:1.7rem;">NYCO</span>
+              <span class="logo-sub" style="font-size:0.6rem;">Construction</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -276,106 +405,31 @@
     </div>
   </section>
 
-  <!-- ── Services ── -->
+  <!-- ── Services Carousel ── -->
   <section style="padding:96px 0;background:#D1D1D6;">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="reveal" style="margin-bottom:56px;">
+      <div class="reveal" style="margin-bottom:48px;">
         <div class="gold-rule"></div>
         <h2 class="fd" style="font-size:2.6rem;font-weight:800;letter-spacing:-0.03em;color:#0B2545;margin-bottom:14px;line-height:1.05;">WHAT WE BUILD</h2>
         <p style="color:#8E8E93;max-width:520px;line-height:1.72;font-size:0.95rem;">From foundations to decorative finishes, NYCO delivers concrete solutions built to last for commercial and residential clients across Western Washington and the South Puget Sound.</p>
       </div>
 
-      <div class="rg-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <!-- Carousel -->
+      <div style="position:relative;padding:0 52px;">
+        <button id="svc-prev" class="svc-arrow" style="left:0;" onclick="svcPrev()" aria-label="Previous">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button id="svc-next" class="svc-arrow" style="right:0;" onclick="svcNext()" aria-label="Next">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
 
-        <!-- Foundations -->
-        <div class="service-card card-shadow reveal rv-d1" style="background:white;border-radius:12px;overflow:hidden;">
-          <div style="overflow:hidden;height:180px;">
-            <img src="https://placehold.co/540x360/2A3A48/3A4A58?text=Foundation+Work" alt="Foundation project" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);" />
-          </div>
-          <div style="padding:24px;">
-            <div style="width:40px;height:40px;border-radius:9px;background:rgba(232,115,26,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#E8731A" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-            </div>
-            <h3 class="fd" style="font-size:1.2rem;font-weight:700;color:#0B2545;margin-bottom:7px;letter-spacing:-0.01em;">Foundations</h3>
-            <p style="color:#8E8E93;font-size:0.875rem;line-height:1.68;margin:0;">Residential and commercial foundation systems built for Western Washington's unique soil and seismic conditions.</p>
-          </div>
+        <div style="overflow:hidden;">
+          <div id="svc-track" style="display:flex;will-change:transform;"></div>
         </div>
-
-        <!-- Slabs-on-Grade -->
-        <div class="service-card card-shadow reveal rv-d2" style="background:white;border-radius:12px;overflow:hidden;">
-          <div style="overflow:hidden;height:180px;">
-            <img src="https://placehold.co/540x360/303030/484848?text=Slab+Flatwork" alt="Slab-on-grade project" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);" />
-          </div>
-          <div style="padding:24px;">
-            <div style="width:40px;height:40px;border-radius:9px;background:rgba(232,115,26,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#E8731A" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
-            </div>
-            <h3 class="fd" style="font-size:1.2rem;font-weight:700;color:#0B2545;margin-bottom:7px;letter-spacing:-0.01em;">Slabs-on-Grade</h3>
-            <p style="color:#8E8E93;font-size:0.875rem;line-height:1.68;margin:0;">Precision flatwork for warehouses, garages, industrial floors, and residential applications.</p>
-          </div>
-        </div>
-
-        <!-- Curb & Gutter -->
-        <div class="service-card card-shadow reveal rv-d3" style="background:white;border-radius:12px;overflow:hidden;">
-          <div style="overflow:hidden;height:180px;">
-            <img src="https://placehold.co/540x360/3A3A3A/505050?text=Curb+%26+Gutter" alt="Curb and gutter project" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);" />
-          </div>
-          <div style="padding:24px;">
-            <div style="width:40px;height:40px;border-radius:9px;background:rgba(232,115,26,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#E8731A" stroke-width="1.8"><rect x="2" y="14" width="20" height="4" rx="1" stroke="#E8731A" stroke-width="1.8"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 14V10h16v4"/></svg>
-            </div>
-            <h3 class="fd" style="font-size:1.2rem;font-weight:700;color:#0B2545;margin-bottom:7px;letter-spacing:-0.01em;">Curb & Gutter</h3>
-            <p style="color:#8E8E93;font-size:0.875rem;line-height:1.68;margin:0;">Site infrastructure curb, gutter, and drainage solutions for commercial developments and municipalities.</p>
-          </div>
-        </div>
-
-        <!-- ADA Compliance -->
-        <div class="service-card card-shadow reveal rv-d4" style="background:white;border-radius:12px;overflow:hidden;">
-          <div style="overflow:hidden;height:180px;">
-            <img src="https://placehold.co/540x360/384838/485848?text=ADA+Ramp+%26+Pathway" alt="ADA compliance project" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);" />
-          </div>
-          <div style="padding:24px;">
-            <div style="width:40px;height:40px;border-radius:9px;background:rgba(232,115,26,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#E8731A" stroke-width="1.8"><circle cx="12" cy="12" r="9" stroke="#E8731A" stroke-width="1.8"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 12l3 3 5-5"/></svg>
-            </div>
-            <h3 class="fd" style="font-size:1.2rem;font-weight:700;color:#0B2545;margin-bottom:7px;letter-spacing:-0.01em;">ADA Compliance</h3>
-            <p style="color:#8E8E93;font-size:0.875rem;line-height:1.68;margin:0;">Curb ramps, accessible pathways, and compliant concrete work meeting current ADA standards.</p>
-          </div>
-        </div>
-
-        <!-- Decorative Concrete -->
-        <div class="service-card card-shadow reveal rv-d5" style="background:white;border-radius:12px;overflow:hidden;">
-          <div style="overflow:hidden;height:180px;">
-            <img src="https://placehold.co/540x360/4A3A2A/5A4A3A?text=Stamped+%26+Decorative" alt="Decorative concrete project" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);" />
-          </div>
-          <div style="padding:24px;">
-            <div style="width:40px;height:40px;border-radius:9px;background:rgba(232,115,26,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#E8731A" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
-            </div>
-            <h3 class="fd" style="font-size:1.2rem;font-weight:700;color:#0B2545;margin-bottom:7px;letter-spacing:-0.01em;">Decorative Concrete</h3>
-            <p style="color:#8E8E93;font-size:0.875rem;line-height:1.68;margin:0;">Stamped, colored, exposed aggregate, and architectural concrete finishes for distinctive spaces.</p>
-          </div>
-        </div>
-
-        <!-- Multi-Family & Warehouse -->
-        <div class="service-card reveal rv-d6" style="background:#0B2545;border-radius:12px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,0.1),0 8px 24px rgba(0,0,0,0.2);">
-          <div style="overflow:hidden;height:180px;position:relative;">
-            <img src="https://placehold.co/540x360/1A2A38/253545?text=Multi-Family+%26+Warehouse" alt="Multi-family warehouse project" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);" />
-            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(11,37,69,0.6));"></div>
-          </div>
-          <div style="padding:24px;">
-            <div style="width:40px;height:40px;border-radius:9px;background:rgba(232,115,26,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#E8731A" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 22V12h6v10"/></svg>
-            </div>
-            <h3 class="fd" style="font-size:1.2rem;font-weight:700;color:white;margin-bottom:7px;letter-spacing:-0.01em;">Multi-Family & Warehouse</h3>
-            <p style="color:rgba(255,255,255,0.55);font-size:0.875rem;line-height:1.68;margin:0;">Large-scale concrete packages for apartment complexes, warehouses, and commercial developments.</p>
-            <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(232,115,26,0.18);">
-              <button onclick="showPage('contact')" style="background:none;border:none;cursor:pointer;color:#E8731A;font-size:0.78rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:0;transition:opacity 0.15s;">Request a Bid →</button>
-            </div>
-          </div>
-        </div>
-
       </div>
+
+      <!-- Dots -->
+      <div id="svc-dots" style="display:flex;justify-content:center;gap:8px;margin-top:28px;"></div>
     </div>
   </section>
 
@@ -416,7 +470,7 @@
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(11,37,69,0.5) 0%,transparent 60%);"></div>
           <div style="position:absolute;inset:0;background:rgba(232,115,26,0.05);mix-blend-mode:multiply;"></div>
         </div>
-        <div style="position:absolute;bottom:-18px;right:-18px;background:#E8731A;border-radius:12px;padding:18px 22px;text-align:center;box-shadow:0 14px 42px rgba(232,115,26,0.42);">
+        <div class="float-bob" style="position:absolute;bottom:-18px;right:-18px;background:#E8731A;border-radius:12px;padding:18px 22px;text-align:center;box-shadow:0 14px 42px rgba(232,115,26,0.42);">
           <div class="fd" style="color:#0B2545;font-size:1.5rem;font-weight:800;line-height:1.1;">Family</div>
           <div style="color:rgba(11,37,69,0.65);font-size:0.65rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;margin-top:3px;">Owned & Operated</div>
         </div>
@@ -489,7 +543,7 @@
   <!-- Hero -->
   <section class="inner-page-hero" style="padding:120px 0 80px;background:linear-gradient(155deg,#0B2545 0%,#13396B 100%);position:relative;overflow:hidden;margin-top:80px;">
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse 65% 80% at 80% 50%,rgba(232,115,26,0.07) 0%,transparent 60%);"></div>
-    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#E8731A 25%,#E8731A 75%,transparent);opacity:0.45;"></div>
+    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:#E8731A;opacity:0.45;"></div>
     <div class="max-w-7xl mx-auto px-6 lg:px-8" style="position:relative;">
       <div class="gold-rule"></div>
       <h1 class="fd" style="font-size:clamp(2.4rem,6vw,4.5rem);font-weight:800;letter-spacing:-0.035em;color:white;line-height:0.93;margin-bottom:16px;">OUR STORY</h1>
@@ -515,7 +569,8 @@
           <div style="position:absolute;inset:0;background:rgba(232,115,26,0.05);mix-blend-mode:multiply;"></div>
         </div>
         <!-- Timeline -->
-        <div class="timeline-float" style="position:absolute;left:-20px;top:50%;transform:translateY(-50%);background:#0B2545;border:1px solid rgba(232,115,26,0.2);border-radius:12px;padding:18px 20px;box-shadow:0 14px 42px rgba(0,0,0,0.3);">
+        <div class="timeline-float" style="position:absolute;left:-20px;top:50%;transform:translateY(-50%);">
+        <div class="float-bob" style="background:#0B2545;border:1px solid rgba(232,115,26,0.2);border-radius:12px;padding:18px 20px;box-shadow:0 14px 42px rgba(0,0,0,0.3);">
           <div style="display:flex;flex-direction:column;gap:4px;">
             <div style="display:flex;align-items:center;gap:10px;">
               <div style="width:8px;height:8px;border-radius:50%;background:#E8731A;flex-shrink:0;"></div>
@@ -542,6 +597,7 @@
             </div>
           </div>
         </div>
+        </div><!-- /timeline-float outer -->
       </div>
     </div>
   </section>
@@ -623,7 +679,7 @@
   <!-- Hero -->
   <section class="inner-page-hero" style="padding:120px 0 80px;background:linear-gradient(155deg,#0B2545 0%,#13396B 100%);position:relative;overflow:hidden;margin-top:80px;">
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse 65% 80% at 80% 50%,rgba(232,115,26,0.07) 0%,transparent 60%);"></div>
-    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#E8731A 25%,#E8731A 75%,transparent);opacity:0.45;"></div>
+    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:#E8731A;opacity:0.45;"></div>
     <div class="max-w-7xl mx-auto px-6 lg:px-8" style="position:relative;">
       <div class="gold-rule"></div>
       <h1 class="fd" style="font-size:clamp(2.4rem,6vw,4.5rem);font-weight:800;letter-spacing:-0.035em;color:white;line-height:0.93;margin-bottom:16px;">PROJECT GALLERY</h1>
@@ -748,7 +804,7 @@
   <!-- Hero -->
   <section class="inner-page-hero" style="padding:120px 0 80px;background:linear-gradient(155deg,#0B2545 0%,#13396B 100%);position:relative;overflow:hidden;margin-top:80px;">
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse 65% 80% at 80% 50%,rgba(232,115,26,0.07) 0%,transparent 60%);"></div>
-    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#E8731A 25%,#E8731A 75%,transparent);opacity:0.45;"></div>
+    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:#E8731A;opacity:0.45;"></div>
     <div class="max-w-7xl mx-auto px-6 lg:px-8" style="position:relative;">
       <div class="gold-rule"></div>
       <h1 class="fd" style="font-size:clamp(2.4rem,6vw,4.5rem);font-weight:800;letter-spacing:-0.035em;color:white;line-height:0.93;margin-bottom:16px;">GET A QUOTE</h1>
@@ -821,7 +877,7 @@
       <!-- Form -->
       <div>
         <div class="card-shadow" style="background:linear-gradient(155deg,#0B2545 0%,#13396B 100%);border-radius:16px;padding:40px 36px;position:relative;overflow:hidden;">
-          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#E8731A 20%,#E8731A 80%,transparent);"></div>
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#E8731A;"></div>
           <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 100% 0%,rgba(232,115,26,0.07) 0%,transparent 60%);pointer-events:none;"></div>
           <div style="position:relative;">
           <div style="color:#E8731A;font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px;">No Obligation</div>
@@ -897,8 +953,19 @@
     <div class="rg-footer" style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:48px;">
 
       <div>
-        <div style="background:white;display:inline-block;border-radius:7px;padding:7px 14px;margin-bottom:18px;">
-          <img src="brand_assets/images.jpeg" alt="NYCO Construction" style="height:38px;width:auto;display:block;" />
+        <div style="background:white;display:inline-block;border-radius:7px;padding:8px 14px;margin-bottom:18px;">
+          <!-- SVG LOGO PLACEHOLDER — swap when real SVG is ready -->
+          <div class="logo-placeholder" style="gap:7px;">
+            <div class="logo-mark" style="width:26px;height:26px;border-radius:5px;">
+              <svg viewBox="0 0 18 18" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                <path d="M3 15 L9 3 L15 15"/><path d="M5.5 10.5 h7"/>
+              </svg>
+            </div>
+            <div>
+              <span class="logo-text" style="font-size:1.05rem;">NYCO</span>
+              <span class="logo-sub">Construction</span>
+            </div>
+          </div>
         </div>
         <p style="color:rgba(255,255,255,0.35);font-size:0.85rem;line-height:1.72;max-width:260px;">Family-owned, second-generation concrete contractor. Est. 1997, rooted in Tumwater, WA.</p>
       </div>
@@ -938,6 +1005,7 @@
 <script>
   // ─── Routing ───
   function showPage(page) {
+    closeMob();
     ['home','about','gallery','contact'].forEach(p => {
       const el = document.getElementById('page-' + p);
       if (el) el.style.display = p === page ? '' : 'none';
@@ -949,18 +1017,159 @@
     setTimeout(checkReveals, 80);
   }
 
+  // ─── Services Carousel ───
+  const SVC_DATA = [
+    {
+      title: 'Foundations',
+      img: 'https://placehold.co/600x400/2A3A48/3A4A58?text=Foundation+Work',
+      icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>',
+      desc: 'Residential and commercial foundation systems built for Western Washington\'s unique soil and seismic conditions. We handle everything from excavation prep to final pour on projects of all scales.'
+    },
+    {
+      title: 'Slabs-on-Grade',
+      img: 'https://placehold.co/600x400/303030/484848?text=Slab+Flatwork',
+      icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>',
+      desc: 'Precision flatwork for warehouses, garages, industrial floors, and residential applications. Our crews deliver tight tolerances and long-lasting finishes on every pour.'
+    },
+    {
+      title: 'Curb & Gutter',
+      img: 'https://placehold.co/600x400/3A3A3A/505050?text=Curb+%26+Gutter',
+      icon: '<rect x="2" y="14" width="20" height="4" rx="1" stroke="#E8731A" stroke-width="1.8"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 14V10h16v4"/>',
+      desc: 'Site infrastructure curb, gutter, and drainage solutions for commercial developments and municipalities. We work to spec and on schedule across South Puget Sound.'
+    },
+    {
+      title: 'ADA Compliance',
+      img: 'https://placehold.co/600x400/384838/485848?text=ADA+Ramp+%26+Pathway',
+      icon: '<circle cx="12" cy="12" r="9" stroke="#E8731A" stroke-width="1.8"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 12l3 3 5-5"/>',
+      desc: 'Curb ramps, accessible pathways, and compliant concrete work meeting current ADA standards. Proper layout, slope, and detectable warning surfaces on every project.'
+    },
+    {
+      title: 'Decorative Concrete',
+      img: 'https://placehold.co/600x400/4A3A2A/5A4A3A?text=Stamped+%26+Decorative',
+      icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>',
+      desc: 'Stamped, colored, exposed aggregate, and architectural concrete finishes for distinctive residential and commercial spaces. Functional surfaces that make an impression.'
+    },
+    {
+      title: 'Multi-Family & Warehouse',
+      img: 'https://placehold.co/600x400/1A2A38/253545?text=Multi-Family+%26+Warehouse',
+      icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 22V12h6v10"/>',
+      desc: 'Large-scale concrete packages for apartment complexes, warehouses, and commercial developments across Western Washington. We handle volume without sacrificing quality.'
+    }
+  ];
+
+  let svcIndex = 0;
+  let svcAnimating = false;
+
+  function svcPerView() { return window.innerWidth < 640 ? 1 : 3; }
+
+  function svcCardHTML(card) {
+    return `
+      <div class="svc-card" style="position:relative;overflow:hidden;border-radius:14px;height:300px;cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,0.15);">
+        <img src="${card.img}" alt="${card.title}" style="width:100%;height:100%;object-fit:cover;display:block;" />
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(11,37,69,0.85) 0%,rgba(11,37,69,0.1) 55%,transparent 100%);"></div>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:20px 22px;">
+          <div style="width:34px;height:34px;border-radius:7px;background:rgba(232,115,26,0.9);display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
+            <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2">${card.icon}</svg>
+          </div>
+          <h3 class="fd" style="color:white;font-size:1.15rem;font-weight:700;letter-spacing:-0.01em;margin:0;">${card.title}</h3>
+        </div>
+        <div class="svc-overlay">
+          <div style="width:34px;height:3px;background:#E8731A;border-radius:2px;margin-bottom:14px;"></div>
+          <h3 class="fd" style="color:white;font-size:1.2rem;font-weight:700;margin-bottom:10px;letter-spacing:-0.01em;">${card.title}</h3>
+          <p style="color:rgba(255,255,255,0.78);font-size:0.875rem;line-height:1.72;margin:0;">${card.desc}</p>
+        </div>
+      </div>`;
+  }
+
+  function svcRender() {
+    const n = svcPerView();
+    const track = document.getElementById('svc-track');
+    if (!track) return;
+    const visible = [];
+    for (let i = 0; i < n + 1; i++) visible.push(SVC_DATA[(svcIndex + i) % SVC_DATA.length]);
+    const cardPct = 100 / (n + 1);
+    track.style.width = `${(n + 1) / n * 100}%`;
+    track.innerHTML = visible.map(c => `
+      <div style="width:${cardPct}%;padding:0 10px;flex-shrink:0;">${svcCardHTML(c)}</div>`).join('');
+    // Dots
+    const dots = document.getElementById('svc-dots');
+    if (dots) {
+      dots.innerHTML = SVC_DATA.map((_, i) => `
+        <div onclick="svcGoTo(${i})" style="width:${i===svcIndex?'22px':'8px'};height:8px;border-radius:4px;
+          background:${i===svcIndex?'#E8731A':'rgba(11,37,69,0.25)'};
+          cursor:pointer;transition:all 0.3s ease;"></div>`).join('');
+    }
+  }
+
+  function svcNext() {
+    if (svcAnimating) return;
+    const n = svcPerView();
+    const track = document.getElementById('svc-track');
+    const cardPct = 75 / n;
+    svcAnimating = true;
+    track.style.transition = 'transform 500ms ease';
+    track.style.transform = `translateX(-${cardPct}%)`;
+    setTimeout(() => {
+      svcIndex = (svcIndex + 1) % SVC_DATA.length;
+      svcRender();
+      const t = document.getElementById('svc-track');
+      t.style.transition = 'none';
+      t.style.transform = 'translateX(0)';
+      void t.offsetWidth;
+      svcAnimating = false;
+    }, 500);
+  }
+
+  function svcPrev() {
+    if (svcAnimating) return;
+    const n = svcPerView();
+    const cardPct = 75 / n;
+    svcAnimating = true;
+    svcIndex = (svcIndex - 1 + SVC_DATA.length) % SVC_DATA.length;
+    svcRender();
+    const track = document.getElementById('svc-track');
+    track.style.transition = 'none';
+    track.style.transform = `translateX(-${cardPct}%)`;
+    void track.offsetWidth;
+    track.style.transition = 'transform 500ms ease';
+    track.style.transform = 'translateX(0)';
+    setTimeout(() => { svcAnimating = false; }, 500);
+  }
+
+  function svcGoTo(i) {
+    if (svcAnimating || i === svcIndex) return;
+    svcIndex = i;
+    svcRender();
+  }
+
+  window.addEventListener('resize', () => { if (!svcAnimating) svcRender(); });
+  document.addEventListener('DOMContentLoaded', svcRender);
+
+  // ─── Nav scroll float ───
+  (function() {
+    const wrapper = document.getElementById('nav-wrapper');
+    function onNavScroll() {
+      if (window.scrollY > 10) wrapper.classList.add('nav-scrolled');
+      else wrapper.classList.remove('nav-scrolled');
+    }
+    window.addEventListener('scroll', onNavScroll, { passive: true });
+    onNavScroll();
+  })();
+
   // ─── Mobile menu ───
   function toggleMob() {
+    const wrapper = document.getElementById('nav-wrapper');
     const m = document.getElementById('mob-menu');
-    const open = m.style.display === 'none' || m.style.display === '';
-    m.style.display = open ? 'block' : 'none';
-    document.getElementById('ic-menu').style.display = open ? 'none' : '';
-    document.getElementById('ic-close').style.display = open ? '' : 'none';
+    const opening = !wrapper.classList.contains('nav-open');
+    wrapper.classList.toggle('nav-open', opening);
+    m.classList.toggle('open', opening);
+    document.body.style.overflow = opening ? 'hidden' : '';
   }
   function closeMob() {
-    document.getElementById('mob-menu').style.display = 'none';
-    document.getElementById('ic-menu').style.display = '';
-    document.getElementById('ic-close').style.display = 'none';
+    const wrapper = document.getElementById('nav-wrapper');
+    wrapper.classList.remove('nav-open');
+    document.getElementById('mob-menu').classList.remove('open');
+    document.body.style.overflow = '';
   }
 
   // ─── Gallery filter (fade transition) ───
