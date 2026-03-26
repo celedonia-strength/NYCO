@@ -101,6 +101,54 @@
         repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.018) 39px, rgba(255,255,255,0.018) 40px),
         repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.018) 39px, rgba(255,255,255,0.018) 40px);
     }
+
+    /* ── Scroll reveal ── */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .rv-d1 { transition-delay: 0.08s; } .rv-d2 { transition-delay: 0.17s; }
+    .rv-d3 { transition-delay: 0.26s; } .rv-d4 { transition-delay: 0.35s; }
+    .rv-d5 { transition-delay: 0.44s; } .rv-d6 { transition-delay: 0.53s; }
+
+    /* ── Hero entrance ── */
+    .he-logo  { animation: heFadeDown 0.7s  cubic-bezier(0.22,1,0.36,1) 0.10s both; }
+    .he-tag   { animation: heFadeUp   0.6s  cubic-bezier(0.22,1,0.36,1) 0.30s both; }
+    .he-h1    { animation: heFadeUp   0.75s cubic-bezier(0.22,1,0.36,1) 0.44s both; }
+    .he-p     { animation: heFadeUp   0.6s  cubic-bezier(0.22,1,0.36,1) 0.62s both; }
+    .he-btns  { animation: heFadeUp   0.6s  cubic-bezier(0.22,1,0.36,1) 0.76s both; }
+    .he-stats { animation: heFadeUp   0.6s  cubic-bezier(0.22,1,0.36,1) 0.92s both; }
+    @keyframes heFadeDown { from { opacity:0; transform:translateY(-22px) scale(0.95); } to { opacity:1; transform:translateY(0) scale(1); } }
+    @keyframes heFadeUp   { from { opacity:0; transform:translateY(22px); }             to { opacity:1; transform:translateY(0); } }
+
+    /* ── Scroll hint bounce ── */
+    .scroll-bounce { animation: sBounce 2.2s ease-in-out infinite; }
+    @keyframes sBounce { 0%,100% { transform:translateY(0); opacity:.2; } 50% { transform:translateY(9px); opacity:.5; } }
+
+    /* ── Nav on scroll ── */
+    .nav-solid { background: rgba(6,24,40,0.98) !important; }
+
+    /* ── Gallery smooth filter ── */
+    #gallery-grid .gallery-card { transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease; }
+    #gallery-grid .gallery-card.g-hidden { opacity: 0 !important; transform: scale(0.88) !important; pointer-events: none; }
+
+    /* ── Mobile responsive ── */
+    @media (max-width: 767px) {
+      .rg-2  { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .rg-3  { grid-template-columns: 1fr !important; gap: 18px !important; }
+      .rg-4  { grid-template-columns: 1fr 1fr !important; gap: 16px !important; }
+      .rg-contact { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .rg-footer  { grid-template-columns: 1fr !important; gap: 28px !important; }
+      #gallery-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+      .timeline-float { display: none !important; }
+      .img-badge-float { bottom: 8px !important; right: 8px !important; padding: 12px 14px !important; }
+      .hero-stats-pipe { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; padding: 16px 24px !important; }
+      .hero-stats-pipe:last-child { border-bottom: none !important; }
+      .two-col-section { padding: 64px 0 !important; }
+      .inner-page-hero { padding: 96px 0 64px !important; }
+    }
+    @media (max-width: 480px) {
+      #gallery-grid { grid-template-columns: 1fr !important; }
+      .rg-4  { grid-template-columns: 1fr 1fr !important; }
+    }
   </style>
 </head>
 <body>
@@ -160,7 +208,7 @@
   <!-- Hero -->
   <section style="min-height:100vh;padding-top:80px;position:relative;display:flex;align-items:center;overflow:hidden;">
     <!-- Photo background -->
-    <div style="position:absolute;inset:0;background:url('brand_assets/480239870_1026206842860485_3141294132674342461_n.jpg') center/cover no-repeat;"></div>
+    <div id="hero-bg" style="position:absolute;top:-60px;right:0;bottom:-60px;left:0;background:url('brand_assets/480239870_1026206842860485_3141294132674342461_n.jpg') center/cover no-repeat;will-change:transform;"></div>
     <!-- Dark overlay layers -->
     <div style="position:absolute;inset:0;background:linear-gradient(175deg,rgba(2,5,12,0.82) 0%,rgba(4,10,22,0.75) 50%,rgba(2,5,12,0.88) 100%);"></div>
     <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,5,12,0.95) 0%,transparent 40%);"></div>
@@ -172,45 +220,45 @@
     <div class="max-w-4xl mx-auto px-6 lg:px-8 w-full py-24" style="text-align:center;position:relative;">
 
       <!-- Logo -->
-      <div style="display:inline-block;margin-bottom:40px;">
+      <div class="he-logo" style="display:inline-block;margin-bottom:40px;">
         <div style="background:white;border-radius:10px;padding:12px 28px;box-shadow:0 8px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(232,115,26,0.2),0 0 60px rgba(232,115,26,0.08);">
           <img src="brand_assets/images.jpeg" alt="NYCO Construction" style="height:70px;width:auto;display:block;" />
         </div>
       </div>
 
       <!-- Divider -->
-      <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:32px;">
+      <div class="he-tag" style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:32px;">
         <div style="height:1px;width:48px;background:rgba(232,115,26,0.4);"></div>
         <div style="color:#E8731A;font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;">Est. 1997 · Tumwater, WA</div>
         <div style="height:1px;width:48px;background:rgba(232,115,26,0.4);"></div>
       </div>
 
-      <h1 class="fd" style="color:white;font-size:clamp(3.5rem,9vw,7rem);font-weight:800;letter-spacing:-0.04em;line-height:0.9;margin-bottom:28px;text-shadow:0 4px 32px rgba(0,0,0,0.5);">
+      <h1 class="fd he-h1" style="color:white;font-size:clamp(3.5rem,9vw,7rem);font-weight:800;letter-spacing:-0.04em;line-height:0.9;margin-bottom:28px;text-shadow:0 4px 32px rgba(0,0,0,0.5);">
         CONCRETE<br>
         <span style="color:#E8731A;">EXPERTISE</span><br>
         SINCE 1997
       </h1>
 
-      <p style="color:rgba(255,255,255,0.65);font-size:1.05rem;line-height:1.75;font-weight:300;max-width:480px;margin:0 auto 44px;">
+      <p class="he-p" style="color:rgba(255,255,255,0.65);font-size:1.05rem;line-height:1.75;font-weight:300;max-width:480px;margin:0 auto 44px;">
         Family-owned and second-generation led. NYCO Construction delivers precision concrete for commercial and residential projects across the Pacific Northwest.
       </p>
 
-      <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
+      <div class="he-btns" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
         <button onclick="showPage('contact')" class="btn-gold" style="padding:15px 32px;border-radius:7px;font-size:0.82rem;letter-spacing:0.06em;text-transform:uppercase;">Get a Free Quote</button>
         <button onclick="showPage('gallery')" class="btn-outline" style="padding:15px 32px;border-radius:7px;font-size:0.82rem;letter-spacing:0.06em;text-transform:uppercase;">View Our Work</button>
       </div>
 
       <!-- Quick stats -->
-      <div style="display:flex;gap:0;flex-wrap:wrap;justify-content:center;margin-top:64px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.08);">
-        <div style="padding:0 40px;border-right:1px solid rgba(255,255,255,0.1);">
+      <div class="he-stats" style="display:flex;gap:0;flex-wrap:wrap;justify-content:center;margin-top:64px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.08);">
+        <div class="hero-stats-pipe" style="padding:0 40px;border-right:1px solid rgba(255,255,255,0.1);">
           <div class="fd" style="color:#E8731A;font-size:2.4rem;font-weight:800;line-height:1;letter-spacing:-0.03em;">29+</div>
           <div style="color:rgba(255,255,255,0.4);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;margin-top:5px;">Years Experience</div>
         </div>
-        <div style="padding:0 40px;border-right:1px solid rgba(255,255,255,0.1);">
+        <div class="hero-stats-pipe" style="padding:0 40px;border-right:1px solid rgba(255,255,255,0.1);">
           <div class="fd" style="color:#E8731A;font-size:2.4rem;font-weight:800;line-height:1;letter-spacing:-0.03em;">2nd</div>
           <div style="color:rgba(255,255,255,0.4);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;margin-top:5px;">Generation Owned</div>
         </div>
-        <div style="padding:0 40px;">
+        <div class="hero-stats-pipe" style="padding:0 40px;">
           <div class="fd" style="color:#E8731A;font-size:2.4rem;font-weight:800;line-height:1;letter-spacing:-0.03em;">PNW</div>
           <div style="color:rgba(255,255,255,0.4);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;margin-top:5px;">Service Area</div>
         </div>
@@ -219,16 +267,18 @@
     </div>
 
     <!-- Scroll hint -->
-    <div style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,0.2);">
-      <span style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;">Scroll</span>
-      <div style="width:1px;height:24px;background:linear-gradient(to bottom,rgba(255,255,255,0.2),transparent);"></div>
+    <div style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);">
+      <div class="scroll-bounce" style="display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,0.2);">
+        <span style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;">Scroll</span>
+        <div style="width:1px;height:24px;background:linear-gradient(to bottom,rgba(255,255,255,0.2),transparent);"></div>
+      </div>
     </div>
   </section>
 
   <!-- ── Services ── -->
   <section style="padding:96px 0;background:#F8F5F1;">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div style="margin-bottom:56px;">
+      <div class="reveal" style="margin-bottom:56px;">
         <div class="gold-rule"></div>
         <h2 class="fd" style="font-size:2.6rem;font-weight:800;letter-spacing:-0.03em;color:#061828;margin-bottom:14px;line-height:1.05;">WHAT WE BUILD</h2>
         <p style="color:#6B7280;max-width:520px;line-height:1.72;font-size:0.95rem;">From foundations to decorative finishes, NYCO delivers concrete solutions built to last for commercial and residential clients throughout the Pacific Northwest.</p>
@@ -237,7 +287,7 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
 
         <!-- Card -->
-        <div class="service-card card-shadow" style="background:white;border-radius:12px;padding:28px;">
+        <div class="service-card card-shadow reveal rv-d1" style="background:white;border-radius:12px;padding:28px;">
           <div style="width:46px;height:46px;border-radius:10px;background:rgba(232,115,26,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
             <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#E8731A" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
           </div>
@@ -245,7 +295,7 @@
           <p style="color:#6B7280;font-size:0.875rem;line-height:1.68;">Residential and commercial foundation systems built for the Pacific Northwest's unique soil and seismic conditions.</p>
         </div>
 
-        <div class="service-card card-shadow" style="background:white;border-radius:12px;padding:28px;">
+        <div class="service-card card-shadow reveal rv-d2" style="background:white;border-radius:12px;padding:28px;">
           <div style="width:46px;height:46px;border-radius:10px;background:rgba(232,115,26,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
             <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#E8731A" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
           </div>
@@ -253,7 +303,7 @@
           <p style="color:#6B7280;font-size:0.875rem;line-height:1.68;">Precision flatwork for warehouses, garages, industrial floors, and residential applications.</p>
         </div>
 
-        <div class="service-card card-shadow" style="background:white;border-radius:12px;padding:28px;">
+        <div class="service-card card-shadow reveal rv-d3" style="background:white;border-radius:12px;padding:28px;">
           <div style="width:46px;height:46px;border-radius:10px;background:rgba(232,115,26,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
             <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#E8731A" stroke-width="1.8"><rect x="2" y="14" width="20" height="4" rx="1" stroke="#E8731A" stroke-width="1.8"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 14V10h16v4"/></svg>
           </div>
@@ -261,7 +311,7 @@
           <p style="color:#6B7280;font-size:0.875rem;line-height:1.68;">Site infrastructure curb, gutter, and drainage solutions for commercial developments and municipalities.</p>
         </div>
 
-        <div class="service-card card-shadow" style="background:white;border-radius:12px;padding:28px;">
+        <div class="service-card card-shadow reveal rv-d4" style="background:white;border-radius:12px;padding:28px;">
           <div style="width:46px;height:46px;border-radius:10px;background:rgba(232,115,26,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
             <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#E8731A" stroke-width="1.8"><circle cx="12" cy="12" r="9" stroke="#E8731A" stroke-width="1.8"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 12l3 3 5-5"/></svg>
           </div>
@@ -269,7 +319,7 @@
           <p style="color:#6B7280;font-size:0.875rem;line-height:1.68;">Curb ramps, accessible pathways, and compliant concrete work meeting current ADA standards.</p>
         </div>
 
-        <div class="service-card card-shadow" style="background:white;border-radius:12px;padding:28px;">
+        <div class="service-card card-shadow reveal rv-d5" style="background:white;border-radius:12px;padding:28px;">
           <div style="width:46px;height:46px;border-radius:10px;background:rgba(232,115,26,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
             <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#E8731A" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
           </div>
@@ -278,7 +328,7 @@
         </div>
 
         <!-- Dark feature card -->
-        <div class="service-card" style="background:#061828;border-radius:12px;padding:28px;box-shadow:0 1px 2px rgba(0,0,0,0.1),0 8px 24px rgba(0,0,0,0.2);">
+        <div class="service-card reveal rv-d6" style="background:#061828;border-radius:12px;padding:28px;box-shadow:0 1px 2px rgba(0,0,0,0.1),0 8px 24px rgba(0,0,0,0.2);">
           <div style="width:46px;height:46px;border-radius:10px;background:rgba(232,115,26,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
             <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#E8731A" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 22V12h6v10"/></svg>
           </div>
@@ -298,20 +348,20 @@
     <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.03) 0px,rgba(255,255,255,0.03) 1px,transparent 1px,transparent 24px);"></div>
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse 55% 100% at 15% 50%,rgba(232,115,26,0.07) 0%,transparent 60%);"></div>
     <div class="max-w-7xl mx-auto px-6 lg:px-8" style="position:relative;">
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;">
-        <div>
-          <div class="fd" style="color:#E8731A;font-size:3.2rem;font-weight:800;letter-spacing:-0.03em;line-height:1;">29+</div>
+      <div class="rg-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;">
+        <div class="reveal rv-d1">
+          <div class="fd count-up" data-target="29" data-suffix="+" style="color:#E8731A;font-size:3.2rem;font-weight:800;letter-spacing:-0.03em;line-height:1;">29+</div>
           <div style="color:rgba(255,255,255,0.5);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-top:6px;">Years Experience</div>
         </div>
-        <div>
-          <div class="fd" style="color:#E8731A;font-size:3.2rem;font-weight:800;letter-spacing:-0.03em;line-height:1;">1997</div>
+        <div class="reveal rv-d2">
+          <div class="fd count-up" data-target="1997" style="color:#E8731A;font-size:3.2rem;font-weight:800;letter-spacing:-0.03em;line-height:1;">1997</div>
           <div style="color:rgba(255,255,255,0.5);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-top:6px;">Year Founded</div>
         </div>
-        <div>
+        <div class="reveal rv-d3">
           <div class="fd" style="color:#E8731A;font-size:3.2rem;font-weight:800;letter-spacing:-0.03em;line-height:1;">2nd</div>
           <div style="color:rgba(255,255,255,0.5);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-top:6px;">Generation Owned</div>
         </div>
-        <div>
+        <div class="reveal rv-d4">
           <div class="fd" style="color:#E8731A;font-size:3.2rem;font-weight:800;letter-spacing:-0.03em;line-height:1;">WA</div>
           <div style="color:rgba(255,255,255,0.5);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-top:6px;">Licensed Contractor</div>
         </div>
@@ -320,11 +370,11 @@
   </section>
 
   <!-- ── Why NYCO ── -->
-  <section style="padding:96px 0;background:#FAFAF8;">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8" style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;">
+  <section class="two-col-section" style="padding:96px 0;background:#FAFAF8;">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 rg-2" style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;">
 
       <!-- Image col -->
-      <div style="position:relative;">
+      <div class="reveal" style="position:relative;">
         <div style="border-radius:14px;overflow:hidden;box-shadow:0 24px 64px rgba(6,24,40,0.18);">
           <img src="https://placehold.co/600x480/253545/354555?text=The+Nygren+Family" alt="NYCO team" style="width:100%;display:block;" />
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,23,46,0.5) 0%,transparent 60%);"></div>
@@ -337,7 +387,7 @@
       </div>
 
       <!-- Text col -->
-      <div>
+      <div class="reveal rv-d2">
         <div class="gold-rule"></div>
         <h2 class="fd" style="font-size:2.6rem;font-weight:800;letter-spacing:-0.03em;color:#061828;line-height:1.05;margin-bottom:20px;">WHY CHOOSE<br><span style="color:#0D2A50;">NYCO</span></h2>
         <p style="color:#6B7280;line-height:1.78;margin-bottom:32px;font-size:0.95rem;">Founded in 1997 by the Nygren family in Tumwater, Washington, NYCO Construction has grown from a local operation into one of the Pacific Northwest's most trusted concrete contractors — now proudly run by the second generation of the Nygren family.</p>
@@ -384,7 +434,7 @@
   <!-- ── CTA Banner ── -->
   <section style="padding:80px 0;background:#E8731A;position:relative;overflow:hidden;">
     <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(0,0,0,0.055) 0px,rgba(0,0,0,0.055) 1px,transparent 1px,transparent 24px);"></div>
-    <div class="max-w-4xl mx-auto px-6 lg:px-8" style="text-align:center;position:relative;">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 reveal" style="text-align:center;position:relative;">
       <h2 class="fd" style="font-size:clamp(2rem,5vw,3rem);font-weight:800;letter-spacing:-0.03em;color:#061828;margin-bottom:14px;">READY TO START YOUR PROJECT?</h2>
       <p style="color:rgba(6,24,40,0.65);line-height:1.72;max-width:520px;margin:0 auto 32px;font-size:0.95rem;">Contact the NYCO team today for a free consultation and project estimate. We serve commercial and residential clients throughout the Pacific Northwest.</p>
       <button onclick="showPage('contact')" class="btn-dark" style="padding:15px 32px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;">
@@ -401,7 +451,7 @@
 <div id="page-about" class="page-section" style="display:none;">
 
   <!-- Hero -->
-  <section style="padding:120px 0 80px;background:linear-gradient(155deg,#030C18 0%,#0D2A50 100%);position:relative;overflow:hidden;margin-top:80px;">
+  <section class="inner-page-hero" style="padding:120px 0 80px;background:linear-gradient(155deg,#030C18 0%,#0D2A50 100%);position:relative;overflow:hidden;margin-top:80px;">
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse 65% 80% at 80% 50%,rgba(232,115,26,0.07) 0%,transparent 60%);"></div>
     <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#E8731A 25%,#E8731A 75%,transparent);opacity:0.45;"></div>
     <div class="max-w-7xl mx-auto px-6 lg:px-8" style="position:relative;">
@@ -413,8 +463,8 @@
 
   <!-- Story -->
   <section style="padding:96px 0;background:#FAFAF8;">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8" style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;">
-      <div>
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 rg-2" style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;">
+      <div class="reveal">
         <div class="gold-rule"></div>
         <h2 class="fd" style="font-size:2.3rem;font-weight:800;letter-spacing:-0.03em;color:#061828;line-height:1.05;margin-bottom:24px;">THE NYGREN<br>FAMILY LEGACY</h2>
         <div style="color:#6B7280;line-height:1.78;font-size:0.95rem;display:flex;flex-direction:column;gap:16px;">
@@ -429,7 +479,7 @@
           <div style="position:absolute;inset:0;background:rgba(232,115,26,0.05);mix-blend-mode:multiply;"></div>
         </div>
         <!-- Timeline -->
-        <div style="position:absolute;left:-20px;top:50%;transform:translateY(-50%);background:#061828;border:1px solid rgba(232,115,26,0.2);border-radius:12px;padding:18px 20px;box-shadow:0 14px 42px rgba(0,0,0,0.3);">
+        <div class="timeline-float" style="position:absolute;left:-20px;top:50%;transform:translateY(-50%);background:#061828;border:1px solid rgba(232,115,26,0.2);border-radius:12px;padding:18px 20px;box-shadow:0 14px 42px rgba(0,0,0,0.3);">
           <div style="display:flex;flex-direction:column;gap:4px;">
             <div style="display:flex;align-items:center;gap:10px;">
               <div style="width:8px;height:8px;border-radius:50%;background:#E8731A;flex-shrink:0;"></div>
@@ -468,7 +518,7 @@
         <h2 class="fd" style="font-size:2.5rem;font-weight:800;letter-spacing:-0.03em;color:#061828;margin-bottom:12px;">OUR VALUES</h2>
         <p style="color:#6B7280;max-width:440px;margin:0 auto;line-height:1.7;font-size:0.95rem;">The principles that have guided NYCO Construction since day one.</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+      <div class="rg-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
 
         <div class="card-shadow" style="background:white;border-radius:14px;padding:36px 28px;text-align:center;">
           <div style="width:60px;height:60px;border-radius:50%;background:rgba(232,115,26,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
@@ -499,8 +549,8 @@
   </section>
 
   <!-- Service Area -->
-  <section style="padding:96px 0;background:#FAFAF8;">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8" style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;">
+  <section class="two-col-section" style="padding:96px 0;background:#FAFAF8;">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 rg-2" style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;">
       <div>
         <div class="gold-rule"></div>
         <h2 class="fd" style="font-size:2.3rem;font-weight:800;letter-spacing:-0.03em;color:#061828;line-height:1.05;margin-bottom:20px;">SERVICE AREA</h2>
@@ -526,7 +576,7 @@
 <div id="page-gallery" class="page-section" style="display:none;">
 
   <!-- Hero -->
-  <section style="padding:120px 0 80px;background:linear-gradient(155deg,#030C18 0%,#0D2A50 100%);position:relative;overflow:hidden;margin-top:80px;">
+  <section class="inner-page-hero" style="padding:120px 0 80px;background:linear-gradient(155deg,#030C18 0%,#0D2A50 100%);position:relative;overflow:hidden;margin-top:80px;">
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse 65% 80% at 80% 50%,rgba(232,115,26,0.07) 0%,transparent 60%);"></div>
     <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#E8731A 25%,#E8731A 75%,transparent);opacity:0.45;"></div>
     <div class="max-w-7xl mx-auto px-6 lg:px-8" style="position:relative;">
@@ -635,7 +685,7 @@
       </div>
 
       <!-- CTA -->
-      <div style="text-align:center;margin-top:56px;padding:48px 32px;border-radius:14px;background:#061828;">
+      <div class="reveal" style="text-align:center;margin-top:56px;padding:48px 32px;border-radius:14px;background:#061828;">
         <h3 class="fd" style="color:white;font-size:1.9rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:10px;">HAVE A PROJECT IN MIND?</h3>
         <p style="color:rgba(255,255,255,0.45);font-size:0.875rem;margin-bottom:24px;">Let's talk about what NYCO Construction can build for you.</p>
         <button onclick="showPage('contact')" class="btn-gold" style="padding:13px 28px;border-radius:7px;">Get a Free Quote</button>
@@ -651,7 +701,7 @@
 <div id="page-contact" class="page-section" style="display:none;">
 
   <!-- Hero -->
-  <section style="padding:120px 0 80px;background:linear-gradient(155deg,#030C18 0%,#0D2A50 100%);position:relative;overflow:hidden;margin-top:80px;">
+  <section class="inner-page-hero" style="padding:120px 0 80px;background:linear-gradient(155deg,#030C18 0%,#0D2A50 100%);position:relative;overflow:hidden;margin-top:80px;">
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse 65% 80% at 80% 50%,rgba(232,115,26,0.07) 0%,transparent 60%);"></div>
     <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#E8731A 25%,#E8731A 75%,transparent);opacity:0.45;"></div>
     <div class="max-w-7xl mx-auto px-6 lg:px-8" style="position:relative;">
@@ -662,7 +712,7 @@
   </section>
 
   <section style="padding:80px 0 96px;background:#F8F5F1;">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8" style="display:grid;grid-template-columns:2fr 3fr;gap:64px;">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 rg-contact" style="display:grid;grid-template-columns:2fr 3fr;gap:64px;">
 
       <!-- Contact info -->
       <div>
@@ -785,7 +835,7 @@
 <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
 <footer style="background:#030C18;border-top:1px solid rgba(232,115,26,0.1);padding:56px 0 32px;">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
-    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:48px;">
+    <div class="rg-footer" style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:48px;">
 
       <div>
         <div style="background:white;display:inline-block;border-radius:7px;padding:7px 14px;margin-bottom:18px;">
@@ -837,6 +887,7 @@
     document.querySelectorAll('[data-page]').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.page === page);
     });
+    setTimeout(checkReveals, 80);
   }
 
   // ─── Mobile menu ───
@@ -853,7 +904,7 @@
     document.getElementById('ic-close').style.display = 'none';
   }
 
-  // ─── Gallery filter ───
+  // ─── Gallery filter (fade transition) ───
   function filterGallery(cat, btn) {
     document.querySelectorAll('.filter-btn').forEach(b => {
       b.classList.remove('active');
@@ -862,9 +913,19 @@
       b.style.borderColor = '#D8D4CF';
     });
     btn.classList.add('active');
-    document.querySelectorAll('#gallery-grid .gallery-card').forEach(card => {
-      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
-    });
+    const cards = document.querySelectorAll('#gallery-grid .gallery-card');
+    // Fade all out
+    cards.forEach(c => c.classList.add('g-hidden'));
+    setTimeout(() => {
+      // Toggle display
+      cards.forEach(c => {
+        const matches = cat === 'all' || c.dataset.cat === cat;
+        c.style.display = matches ? '' : 'none';
+      });
+      // Force reflow then fade in matched
+      document.getElementById('gallery-grid').getBoundingClientRect();
+      cards.forEach(c => { if (c.style.display !== 'none') c.classList.remove('g-hidden'); });
+    }, 290);
   }
 
   // ─── Form ───
@@ -880,6 +941,63 @@
     }, 1000);
   }
 
+  // ─── Scroll reveal ───
+  function checkReveals() {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.90) el.classList.add('visible');
+    });
+  }
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  function initReveals() {
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  }
+
+  // ─── Counter animation ───
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = target > 500 ? 1600 : 1200;
+    const startVal = target > 500 ? target - Math.floor(target * 0.06) : 0;
+    const startTime = performance.now();
+    function step(now) {
+      const p = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.floor(startVal + eased * (target - startVal)) + (p >= 1 ? suffix : '');
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.dataset.counted) {
+        e.target.dataset.counted = '1';
+        animateCounter(e.target);
+        counterObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.6 });
+  function initCounters() {
+    document.querySelectorAll('.count-up').forEach(el => counterObserver.observe(el));
+  }
+
+  // ─── Nav + Parallax on scroll ───
+  function onScroll() {
+    const sy = window.scrollY;
+    document.querySelector('nav').classList.toggle('nav-solid', sy > 40);
+    const homePage = document.getElementById('page-home');
+    if (sy < window.innerHeight && homePage && homePage.style.display !== 'none') {
+      const bg = document.getElementById('hero-bg');
+      if (bg) bg.style.transform = 'translateY(' + (sy * 0.28) + 'px)';
+    }
+    checkReveals();
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
   // ─── Hash routing ───
   function getHashPage() {
     const h = location.hash.replace('#','');
@@ -894,6 +1012,9 @@
 
   // ─── Init ───
   origShowPage(getHashPage());
+  initReveals();
+  initCounters();
+  setTimeout(checkReveals, 100);
 </script>
 
 </body>
