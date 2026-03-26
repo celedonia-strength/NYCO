@@ -987,6 +987,10 @@
           <p style="color:rgba(255,255,255,0.45);font-size:0.85rem;margin-bottom:32px;">Fill out the form below and we'll reach out within 1–2 business days.</p>
 
           <form onsubmit="handleSubmit(event)" style="display:flex;flex-direction:column;gap:18px;">
+            <!-- Honeypot: hidden from real users; bots fill this in -->
+            <div style="display:none;" aria-hidden="true">
+              <input type="text" name="website" id="hp-website" tabindex="-1" autocomplete="off" />
+            </div>
             <div class="form-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
               <div>
                 <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:7px;">First Name *</label>
@@ -1301,6 +1305,8 @@
   // ─── Form ───
   function handleSubmit(e) {
     e.preventDefault();
+    // Honeypot check — bots fill hidden fields, humans don't
+    if (document.getElementById('hp-website').value) return;
     const btn = document.getElementById('submit-btn');
     btn.textContent = 'Sending...';
     btn.disabled = true;

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# No admin or internal routes exist on this static site.
+# If any are added in the future, disallow them here, e.g.:
+# Disallow: /admin/
+# Disallow: /api/
