@@ -231,6 +231,8 @@
       #gallery-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
       .timeline-float { display: none !important; }
       .img-badge-float { bottom: 8px !important; right: 8px !important; padding: 12px 14px !important; }
+      .he-tag-text { display:flex !important; flex-direction:column !important; align-items:center !important; gap:4px !important; }
+      .he-tag-sep { display:none !important; }
       .hero-stats-pipe { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; padding: 16px 24px !important; width: 100% !important; text-align: center !important; }
       .hero-stats-pipe:last-child { border-bottom: none !important; }
       .hero-stats-pipe .fd { justify-content: center; }
@@ -277,7 +279,7 @@
 
       <!-- Animated hamburger -->
       <button id="mob-toggle" onclick="toggleMob()" class="md:hidden"
-        style="background:#E8731A;border:1px solid rgba(232,115,26,0.6);border-radius:8px;cursor:pointer;padding:8px;color:#fff;display:flex;align-items:center;justify-content:center;transition:background 0.15s;">
+        style="background:#1B3A6B;border:1px solid rgba(27,58,107,0.6);border-radius:8px;cursor:pointer;padding:8px;color:#fff;display:flex;align-items:center;justify-content:center;transition:background 0.15s;">
         <svg id="ham-svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
           stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 32 32">
           <path id="ham-path-top"
@@ -346,7 +348,7 @@
       <!-- Divider -->
       <div class="he-tag" style="display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:32px;">
         <div style="height:1px;width:60px;background:rgba(232,115,26,0.4);"></div>
-        <div style="color:#E8731A;font-size:1rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;">Est. 1997 &nbsp;·&nbsp; Tumwater, WA</div>
+        <div class="he-tag-text" style="color:#E8731A;font-size:1rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;text-align:center;"><span>Est. 1997</span><span class="he-tag-sep"> &nbsp;·&nbsp; </span><span>Tumwater, WA</span></div>
         <div style="height:1px;width:60px;background:rgba(232,115,26,0.4);"></div>
       </div>
 
@@ -356,7 +358,7 @@
         SINCE 1997
       </h1>
 
-      <p class="he-p" style="color:rgba(255,255,255,0.65);font-size:1.05rem;line-height:1.75;font-weight:300;max-width:480px;margin:0 auto 44px;">
+      <p class="he-p" style="color:white;font-size:1.05rem;line-height:1.75;font-weight:300;max-width:480px;margin:0 auto 44px;">
         Family-owned and second-generation led. NYCO Construction delivers precision concrete for commercial and residential projects throughout Washington State.
       </p>
 
